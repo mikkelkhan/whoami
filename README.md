@@ -83,3 +83,6 @@ all-MiniLM-L6-v2
 ```text
 llama-3.3-70b-versatile
 ```
+## UI Preview:
+
+<img src="/chat_ui.png" width="800" />
