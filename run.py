@@ -5,8 +5,10 @@ from src.vectorstore import FaissvectorStore
 if __name__ == "__main__":
     #docs = load_doc("data")
     store = FaissvectorStore("faiss_store")
+    #store.build_from_documents(docs)
     store.load()
-    print(store.query("What is Mevert?",top_k=5))
+    print(store.query("What is Mevert?",top_k=3))
+             
 
     
 

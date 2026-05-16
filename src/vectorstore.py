@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 from src.embeddings import EmbeddingDoc
 
 class FaissvectorStore:
-    def __init__(self,persist_dir = "faiss_store",embedding_model_name="all-MiniLm-L6-v2", chunk_size=500,chunck_overlap = 100):
+    def __init__(self,persist_dir = "faiss_store",embedding_model_name="all-MiniLM-L6-v2", chunk_size=500,chunck_overlap = 100):
         self.persist_dir = persist_dir
         os.makedirs(self.persist_dir,exist_ok=True)
         self.index = None
@@ -20,7 +20,7 @@ class FaissvectorStore:
         emb_pip = EmbeddingDoc(model_name=self.embedding_model_name,chunk_size=self.chunk_size,chunck_overlap=self.chunk_overlap)
         chunks = emb_pip.chunk_doc(documnets)
         embeddings = emb_pip.embedding_chunks(chunks)
-        metadatas  = [{"text":chunk.page_content for chunk in chunks}]
+        metadatas  = metadatas = [{"text": chunk.page_content}for chunk in chunks]
         self.add_embeddings(np.array(embeddings).astype('float32'), metadatas)
         self.save()
 
@@ -60,4 +60,4 @@ class FaissvectorStore:
     def query(self, query_text, top_k= 5):
         print(f"[INFO] Querying vector store for: '{query_text}'")
         query_emb = self.model_name.encode([query_text]).astype('float32')
-        return self.search(query_emb, top_k=top_k)
+        return self.search(query_emb, top_k=top_k)         
