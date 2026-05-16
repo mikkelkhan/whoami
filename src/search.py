@@ -1,9 +1,9 @@
 import os
 
 from langchain_groq import ChatGroq
-
+from dotenv import load_dotenv
 from src.vectorstore import FaissvectorStore
-
+load_dotenv()
 
 class RAGSearch:
 
@@ -11,7 +11,7 @@ class RAGSearch:
         self,
         persist_dir="faiss_store",
         embedding_model="all-MiniLM-L6-v2",
-        llm_model="llama-3.3-70b-versatile"
+        llm_model= os.getenv("llm_model")
     ):
 
         self.vectorstore = FaissvectorStore(
@@ -45,7 +45,7 @@ class RAGSearch:
 
             self.vectorstore.load()
 
-        groq_api_key = ""
+        groq_api_key = os.getenv("groq_api_key")
 
         self.llm = ChatGroq(
             groq_api_key=groq_api_key,
@@ -85,13 +85,9 @@ class RAGSearch:
        
 
         prompt = f"""
-You are a helpful AI assistant.
-
-Answer ONLY from the provided context.
-
-If the answer is not found in the context,
-say:
-"I could not find the answer in the documents."
+Answer only using the provided context.
+Be concise and accurate and little bit long also.
+If not found, say "Not found in context."
 
 Context:
 {context}

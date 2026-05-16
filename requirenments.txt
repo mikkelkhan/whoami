@@ -9,3 +9,6 @@ faiss-cpu
 openai
 groq 
 langchain_groq
+flask
+render_template
+jsonify
