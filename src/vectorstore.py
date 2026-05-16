@@ -25,9 +25,10 @@ class FaissvectorStore:
         self.save()
 
     def add_embeddings(self, embeddings, metadatas = None):
+        faiss.normalize_L2(embeddings)
         dim = embeddings.shape[1]
         if self.index is None:
-            self.index = faiss.IndexFlatL2(dim)
+            self.index = faiss.IndexFlatIP(dim)
         self.index.add(embeddings)
         if metadatas:
             self.metadata.extend(metadatas)
@@ -60,4 +61,5 @@ class FaissvectorStore:
     def query(self, query_text, top_k= 5):
         print(f"[INFO] Querying vector store for: '{query_text}'")
         query_emb = self.model_name.encode([query_text]).astype('float32')
+        faiss.normalize_L2(query_emb)
         return self.search(query_emb, top_k=top_k)         
