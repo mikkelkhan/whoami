@@ -6,3 +6,6 @@ pymupdf
 sentence-transformers
 langchain-text-splitters
 faiss-cpu
+openai
+groq 
+langchain_groq
